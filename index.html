@@ -8,7 +8,7 @@
 <title>Digital Monitoring of Glacier Melting in the Himalayan Region | CHE110 Project</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,22 +16,13 @@
 
 <!-- Fixed atmospheric background (pure decoration) -->
 <div class="bg" aria-hidden="true">
-  <svg class="bg-topo" preserveAspectRatio="xMidYMid slice"><rect width="100%" height="100%" fill="url(#topo)"/></svg>
+  <div class="bg-topo"></div>
   <div class="bg-grid"></div>
 </div>
 
 <!-- Reusable SVG assets -->
 <svg class="svg-defs" aria-hidden="true" focusable="false">
   <defs>
-    <pattern id="topo" width="220" height="220" patternUnits="userSpaceOnUse" patternTransform="rotate(14)">
-      <g fill="none" stroke="rgba(159,190,214,0.13)" stroke-width="1">
-        <circle cx="110" cy="110" r="16"/><circle cx="110" cy="110" r="34"/><circle cx="110" cy="110" r="54"/><circle cx="110" cy="110" r="76"/><circle cx="110" cy="110" r="100"/><circle cx="110" cy="110" r="126"/>
-        <circle cx="0" cy="0" r="18"/><circle cx="0" cy="0" r="40"/><circle cx="0" cy="0" r="64"/><circle cx="0" cy="0" r="90"/>
-        <circle cx="220" cy="0" r="20"/><circle cx="220" cy="0" r="44"/><circle cx="220" cy="0" r="70"/>
-        <circle cx="0" cy="220" r="20"/><circle cx="0" cy="220" r="44"/><circle cx="0" cy="220" r="70"/>
-        <circle cx="220" cy="220" r="18"/><circle cx="220" cy="220" r="40"/><circle cx="220" cy="220" r="64"/>
-      </g>
-    </pattern>
     <symbol id="ridge-back" viewBox="0 0 1440 320"><path d="M0 320V205l86-45 82 55 84-65 88 70 88-80 92 62 96-60 82 52 92-74 96 66 94-52 88 58 90-62 84 62 92-44 78 32 60-18v78z"/></symbol>
     <symbol id="ridge-mid" viewBox="0 0 1440 320"><path d="M0 320V240l72-58 88 70 88-80 90 80 92-102 90 94 92-54 88 72 92-90 90 78 92-88 88 88 94-80 88 76 90-66 86 72 78-46 66 38 62-52v74z"/></symbol>
     <symbol id="ridge-front" viewBox="0 0 1440 320"><path d="M0 320V272l82-50 90 60 92-82 98 82 100-92 100 82 106-60 104 74 106-84 100 74 110-60 100 68 108-58 92 72 100-56 92 46 58-26v72z"/></symbol>
@@ -44,21 +35,21 @@
   <div class="container header-inner">
     <div class="brand">
       <span class="logo-tile">
-        <img class="logo" src="lpu-logo.png" alt="Lovely Professional University logo" width="600" height="600">
+        <img class="logo" src="lpu-logo.png" alt="Lovely Professional University logo" width="128" height="128">
       </span>
       <div>
         <p class="brand-title">Hima-Drishti</p>
-        <p class="brand-sub">Environment Awareness Project &middot; CHE110, LPU</p>
+        <p class="brand-sub">CHE110 Project &middot; LPU</p>
       </div>
     </div>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu"><span class="bars" aria-hidden="true"></span><span class="sr">Menu</span></button>
     <nav aria-label="Primary" id="nav-menu" class="nav">
       <ul class="nav-links">
         <li><a href="#finding">Key finding</a></li>
-        <li><a href="#monitoring">How monitoring works</a></li>
+        <li><a href="#monitoring">Monitoring</a></li>
         <li><a href="#evidence">Evidence</a></li>
-        <li><a href="#impact">Why it matters</a></li>
-        <li><a href="#action">What can be done</a></li>
+        <li><a href="#impact">Impact</a></li>
+        <li><a href="#action">Action</a></li>
         <li><a href="#limits">Limits</a></li>
         <li><a href="#project">Project</a></li>
       </ul>
@@ -70,12 +61,10 @@
   <section class="hero">
     <div class="hero-sky" aria-hidden="true">
       <span class="starfield"></span>
-      <span class="scanline"></span>
       <span class="hero-glow"></span>
       <svg class="ridge-layer ridge-back" viewBox="0 0 1440 320" preserveAspectRatio="none"><use href="#ridge-back"/></svg>
       <svg class="ridge-layer ridge-mid" viewBox="0 0 1440 320" preserveAspectRatio="none"><use href="#ridge-mid"/></svg>
-      <svg class="ridge-layer ridge-front" viewBox="0 0 1440 320" preserveAspectRatio="none"><use href="#ridge-front"/></svg>
-      <svg class="ridge-layer ridge-line" viewBox="0 0 1440 320" preserveAspectRatio="none"><use href="#ridge-front"/></svg>
+      <svg class="ridge-layer ridge-front" viewBox="0 0 1440 320" preserveAspectRatio="none"><use class="ridge-fill" href="#ridge-front"/><use class="ridge-stroke" href="#ridge-front"/></svg>
       <span class="snow"></span>
     </div>
     <div class="container hero-inner">
@@ -99,6 +88,7 @@
           <span class="dash-tag">2000&ndash;2009</span>
           <span class="dash-num" data-count="0.17" data-prefix="&minus;" data-decimals="2">&minus;0.17</span>
           <span class="dash-label">m w.e. per year</span>
+          <span class="meter" aria-hidden="true"><span style="--w:61%"></span></span>
         </div>
         <div class="dash-arrow" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="30" height="30"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -107,20 +97,11 @@
           <span class="dash-tag">2010&ndash;2019</span>
           <span class="dash-num" data-count="0.28" data-prefix="&minus;" data-decimals="2">&minus;0.28</span>
           <span class="dash-label">m w.e. per year</span>
+          <span class="meter" aria-hidden="true"><span style="--w:100%"></span></span>
         </div>
         <div class="dash-delta">
           <span class="dash-num" data-count="65" data-prefix="+" data-suffix="%">+65%</span>
           <span class="dash-label">faster mass loss</span>
-        </div>
-      </div>
-      <div class="dash-chart" aria-hidden="true">
-        <div class="bar-group">
-          <span class="bar bar-a" style="--h:52%"></span>
-          <span class="bar-cap">2000s</span>
-        </div>
-        <div class="bar-group">
-          <span class="bar bar-b" style="--h:86%"></span>
-          <span class="bar-cap">2010s</span>
         </div>
       </div>
       <div class="meta">

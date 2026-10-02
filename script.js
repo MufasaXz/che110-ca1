@@ -26,53 +26,66 @@
     });
   }
 
-  /* ---------- header + scroll progress ---------- */
+  /* ---------- scroll: header state, progress bar, hero parallax ----------
+     One passive listener -> one rAF per frame. The scrollable height is measured
+     only on load/resize (reading scrollHeight on every scroll event forces layout). */
   var header = document.querySelector(".site-header");
   var progress = document.querySelector(".scroll-progress");
-
-  function onScroll() {
-    var y = window.scrollY || docEl.scrollTop;
-    if (header) header.classList.toggle("scrolled", y > 8);
-    if (progress) {
-      var max = docEl.scrollHeight - window.innerHeight;
-      var p = max > 0 ? y / max : 0;
-      progress.style.transform = "scaleX(" + Math.min(Math.max(p, 0), 1) + ")";
-    }
-  }
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-
-  /* ---------- hero ridge parallax ---------- */
   var layers = [
     { el: document.querySelector(".ridge-back"), speed: 0.08 },
     { el: document.querySelector(".ridge-mid"), speed: 0.16 },
-    { el: document.querySelector(".ridge-front"), speed: 0.28 },
-    { el: document.querySelector(".ridge-line"), speed: 0.28 }
+    { el: document.querySelector(".ridge-front"), speed: 0.28 }
   ].filter(function (l) { return l.el; });
 
+  var maxScroll = 0;
+  var viewH = window.innerHeight;
+  function measure() {
+    viewH = window.innerHeight;
+    maxScroll = docEl.scrollHeight - viewH;
+  }
+  measure();
+  window.addEventListener("resize", measure);
+  window.addEventListener("load", measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+
   var ticking = false;
-  function parallax() {
+  var heroVisible = true;
+  function frame() {
     ticking = false;
-    var y = window.scrollY;
-    if (y > window.innerHeight * 1.2) return;
-    for (var i = 0; i < layers.length; i++) {
-      layers[i].el.style.transform = "translateY(" + (y * layers[i].speed).toFixed(1) + "px)";
+    var y = window.scrollY || docEl.scrollTop;
+    if (header) header.classList.toggle("scrolled", y > 8);
+    if (progress) {
+      var p = maxScroll > 0 ? y / maxScroll : 0;
+      progress.style.transform = "scaleX(" + Math.min(Math.max(p, 0), 1).toFixed(4) + ")";
+    }
+    if (!reduceMotion && heroVisible) {
+      for (var i = 0; i < layers.length; i++) {
+        layers[i].el.style.transform = "translate3d(0," + (y * layers[i].speed).toFixed(1) + "px,0)";
+      }
     }
   }
-  if (!reduceMotion && layers.length) {
-    window.addEventListener("scroll", function () {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(parallax);
-      }
-    }, { passive: true });
+  window.addEventListener("scroll", function () {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(frame);
+    }
+  }, { passive: true });
+  frame();
+
+  /* ---------- hero: pause animations + parallax when off-screen ---------- */
+  var hero = document.querySelector(".hero");
+  if (hero && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (list) {
+      heroVisible = list[0].isIntersecting;
+      hero.classList.toggle("is-offscreen", !heroVisible);
+    }).observe(hero);
   }
 
   /* ---------- snow particles ---------- */
   var snowLayer = document.querySelector(".snow");
   if (snowLayer && !reduceMotion) {
     var isSmall = window.matchMedia("(max-width: 620px)").matches;
-    var count = isSmall ? 16 : 28;
+    var count = isSmall ? 10 : 18;
     var frag = document.createDocumentFragment();
     for (var s = 0; s < count; s++) {
       var f = document.createElement("span");
@@ -84,7 +97,6 @@
       f.style.animationDuration = (Math.random() * 11 + 9).toFixed(2) + "s";
       f.style.animationDelay = (-Math.random() * 18).toFixed(2) + "s";
       f.style.setProperty("--dx", (Math.random() * 80 - 40).toFixed(0) + "px");
-      f.style.opacity = (Math.random() * 0.4 + 0.4).toFixed(2);
       frag.appendChild(f);
     }
     snowLayer.appendChild(frag);
