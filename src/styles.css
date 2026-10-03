@@ -603,6 +603,11 @@ body::after {
   background: var(--cyan-2);
   animation: cue 1.8s var(--ease) infinite;
 }
+/* Once the 3D scene is live, the "drag to look around" hint owns the bottom
+   centre — the scroll cue would otherwise collide with it. */
+html.webgl-ready .scroll-cue {
+  display: none;
+}
 @keyframes cue {
   0% {
     transform: translateY(0);
