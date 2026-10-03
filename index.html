@@ -7,6 +7,7 @@
 <meta name="description" content="Digital monitoring of glacier melting in the Hindu Kush Himalaya: how scientists track ice loss, what the evidence shows, and what can be done. A CHE110 environment awareness project by students at Lovely Professional University.">
 <meta name="theme-color" content="#04080e">
 <title>Digital Monitoring of Glacier Melting in the Himalayan Region | CHE110 Project</title>
+<link rel="icon" href="lpu-logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,9 +16,22 @@
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
 
-<!-- Fixed WebGL backdrop: a procedural Himalayan range driven by scroll -->
-<canvas id="scene" class="scene" aria-hidden="true"></canvas>
+<!-- Full-viewport WebGL glacier: drag to look, scroll to travel through time -->
+<canvas id="scene" class="scene" aria-label="Interactive 3D model of a Himalayan glacier melting over time"></canvas>
 <div class="scene-fallback" aria-hidden="true"></div>
+
+<div class="scene-hud" aria-hidden="true">
+  <div class="hud-item">
+    <span class="hud-label">Scenario year</span>
+    <span class="hud-value" id="hud-year">1990</span>
+  </div>
+  <div class="hud-item">
+    <span class="hud-label">Glacier volume</span>
+    <span class="hud-value hud-loss" id="hud-volume">&minus;0%</span>
+  </div>
+</div>
+<div class="scene-hint" aria-hidden="true"><span class="hint-dot"></span>Drag to look around</div>
+<p class="scene-status" id="scene-status">Loading environment…</p>
 
 <!-- Reusable SVG assets -->
 <svg class="svg-defs" aria-hidden="true" focusable="false">
@@ -64,6 +78,17 @@
       <p class="scope" data-reveal="up"><strong>Which region?</strong> "HKH" (Hindu Kush Himalaya) is the eight-country region ICIMOD assesses. "Himalaya" is the central mountain arc within it. "High Mountain Asia" is a wider region that also includes the Tibetan Plateau and Tien Shan. We name the region each source uses.</p>
     </div>
     <a class="scroll-cue" href="#finding" aria-label="Scroll to key finding"><span aria-hidden="true"></span></a>
+  </section>
+
+  <!-- Pinned 3D showcase: the glacier retreats as the scenario year advances -->
+  <section class="showcase" id="glacier" aria-labelledby="glacier-title">
+    <div class="showcase-sticky">
+      <div class="container showcase-copy">
+        <p class="showcase-kicker">Interactive model</p>
+        <h2 id="glacier-title" class="showcase-title">Scroll to advance the timeline</h2>
+        <p class="showcase-note">The glacier retreats and a proglacial lake grows as the scenario year runs from 1990 to 2100. Drag to look around the valley.</p>
+      </div>
+    </div>
   </section>
 
   <section id="finding" class="section band">

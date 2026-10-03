@@ -120,16 +120,164 @@ svg {
     linear-gradient(180deg, #081420 0%, #050a12 55%, #04080e 100%);
 }
 
-/* A soft vignette so long-form text always stays legible over the scene. */
+/* ---------- 3D scene HUD / loading ---------- */
+.hero {
+  cursor: grab;
+}
+.scene-dragging .hero {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.scene-hud {
+  position: fixed;
+  right: clamp(0.9rem, 3vw, 2.2rem);
+  bottom: clamp(0.9rem, 3vw, 2rem);
+  z-index: 90;
+  display: flex;
+  gap: 0.7rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  pointer-events: none;
+}
+.webgl-ready .scene-hud {
+  opacity: 1;
+  transform: none;
+}
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.6rem 0.95rem;
+  border-radius: 14px;
+  border: 1px solid var(--line-strong);
+  background: rgba(6, 13, 24, 0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+.hud-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+.hud-value {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--snow);
+  font-variant-numeric: tabular-nums;
+}
+.hud-loss {
+  color: #ff8a5c;
+}
+
+.scene-hint {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(0.9rem, 3vw, 2rem);
+  transform: translateX(-50%);
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(6, 13, 24, 0.5);
+  color: var(--mist);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  animation: hint-in 1s var(--ease) 2.4s forwards, hint-out 1s var(--ease) 9s forwards;
+  pointer-events: none;
+}
+.hint-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+}
+@keyframes hint-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes hint-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.scene-status {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 95;
+  color: var(--mist);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease);
+}
+.webgl-ready .scene-status {
+  opacity: 0;
+}
+.scene-status:empty {
+  display: none;
+}
+
+/* ---------- pinned 3D showcase ---------- */
+.showcase {
+  position: relative;
+  min-height: 215svh;
+  pointer-events: none;
+}
+.showcase-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: clamp(6rem, 15vh, 10rem);
+}
+.showcase-copy {
+  max-width: 720px;
+}
+.showcase-kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 0.7rem;
+}
+.showcase-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 4.4vw, 3.2rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--snow);
+  text-shadow: 0 2px 40px rgba(0, 0, 0, 0.6);
+  margin-bottom: 0.8rem;
+}
+.showcase-note {
+  color: var(--mist);
+  font-size: 1rem;
+  max-width: 560px;
+  text-shadow: 0 1px 24px rgba(0, 0, 0, 0.7);
+}
+
+/* A light vignette; the 3D scene must stay clearly visible underneath. */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background:
-    radial-gradient(120% 90% at 50% 8%, transparent 40%, rgba(4, 8, 14, 0.55) 100%),
-    linear-gradient(180deg, rgba(4, 8, 14, 0.35), rgba(4, 8, 14, 0.72) 60%, rgba(4, 8, 14, 0.9));
+  background: radial-gradient(125% 95% at 50% 6%, transparent 58%, rgba(4, 8, 14, 0.42) 100%);
 }
 
 .svg-defs {
@@ -204,14 +352,12 @@ body::after {
   z-index: 100;
   padding: 0.85rem 0;
   transition: padding 0.35s var(--ease), background 0.35s var(--ease),
-    border-color 0.35s var(--ease), backdrop-filter 0.35s var(--ease);
+    border-color 0.35s var(--ease);
   border-bottom: 1px solid transparent;
 }
 .site-header.scrolled {
   padding: 0.5rem 0;
   background: rgba(6, 13, 22, 0.72);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
   border-bottom-color: var(--line);
 }
 
@@ -346,8 +492,8 @@ body::after {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(80% 60% at 20% 30%, rgba(4, 8, 14, 0.72), transparent 70%),
-    linear-gradient(180deg, rgba(4, 8, 14, 0.5) 0%, rgba(4, 8, 14, 0.15) 40%, rgba(4, 8, 14, 0.85) 100%);
+    radial-gradient(75% 65% at 18% 38%, rgba(4, 8, 14, 0.68), transparent 72%),
+    linear-gradient(180deg, rgba(4, 8, 14, 0.34) 0%, rgba(4, 8, 14, 0.06) 42%, rgba(4, 8, 14, 0.72) 100%);
   pointer-events: none;
 }
 .hero-inner {
@@ -363,8 +509,6 @@ body::after {
   border-radius: 999px;
   border: 1px solid var(--line-strong);
   background: rgba(10, 22, 38, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   color: var(--mist);
   font-size: 0.8rem;
   letter-spacing: 0.06em;
@@ -433,8 +577,6 @@ body::after {
   border-left: 2px solid var(--cyan);
   background: rgba(10, 22, 38, 0.4);
   border-radius: 0 12px 12px 0;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 .scope strong {
   color: var(--ice);
@@ -483,9 +625,7 @@ body::after {
   padding: clamp(4.5rem, 9vw, 8rem) 0;
 }
 .band {
-  background: linear-gradient(180deg, rgba(8, 17, 30, 0.82), rgba(5, 11, 20, 0.9));
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background: linear-gradient(180deg, rgba(6, 13, 24, 0.6), rgba(4, 9, 17, 0.8));
   border-block: 1px solid var(--line);
 }
 
@@ -554,8 +694,6 @@ body::after {
   background: var(--glass);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   overflow: hidden;
 }
 .dash-card::before {
@@ -631,8 +769,6 @@ body::after {
   background: linear-gradient(160deg, rgba(255, 157, 102, 0.14), rgba(255, 157, 102, 0.04));
   border: 1px solid rgba(255, 157, 102, 0.3);
   text-align: center;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 .dash-delta .dash-num {
   color: var(--ember-2);
@@ -670,8 +806,6 @@ body::after {
   background: var(--glass);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   transition: transform 0.45s var(--ease), border-color 0.45s, box-shadow 0.45s;
   overflow: hidden;
 }
@@ -811,8 +945,6 @@ body::after {
   background: var(--glass);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   transition: transform 0.4s var(--ease), border-color 0.4s;
 }
 .finding-item:hover {
@@ -927,8 +1059,6 @@ body::after {
   border-radius: var(--radius);
   background: var(--glass);
   border: 1px solid var(--line);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 .impact-grid p {
   color: var(--mist-dim);
@@ -993,8 +1123,6 @@ body::after {
   background: var(--glass);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   transition: transform 0.45s var(--ease), border-color 0.45s, box-shadow 0.45s;
   overflow: hidden;
 }
@@ -1110,8 +1238,6 @@ body::after {
   border-radius: var(--radius);
   background: var(--glass);
   border: 1px solid var(--line);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   transition: transform 0.4s var(--ease), border-color 0.4s;
 }
 .info-card:hover {
@@ -1213,8 +1339,8 @@ body::after {
 .js [data-reveal] {
   opacity: 0;
   transform: translateY(34px);
-  filter: blur(10px);
-  transition: opacity 0.95s var(--ease), transform 0.95s var(--ease), filter 0.95s var(--ease);
+  filter: blur(7px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease), filter 0.8s var(--ease);
   transition-delay: var(--d, 0s);
   will-change: opacity, transform;
 }
@@ -1254,8 +1380,6 @@ body::after {
     left: 1.3rem;
     border-radius: var(--radius);
     background: rgba(7, 16, 27, 0.96);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
     border: 1px solid var(--line);
     box-shadow: var(--shadow);
     padding: 0.7rem;
