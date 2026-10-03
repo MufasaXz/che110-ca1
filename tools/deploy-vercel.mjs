@@ -13,11 +13,13 @@
 
    Optional:
      VERCEL_PROJECT   project name           (default: himdristi)
-     VERCEL_TEAM      team slug, if the project lives in a team
+     VERCEL_TEAM      team slug or id, if the project lives in a team
+                      (VERCEL_SCOPE is accepted as a fallback)
      VERCEL_TARGET    production | preview    (default: production)
 
    Usage:
-     VERCEL_TOKEN=xxx node tools/deploy-vercel.mjs
+     set -a; . ~/.ci/vercel.env; set +a
+     VERCEL_TEAM="$VERCEL_SCOPE" node tools/deploy-vercel.mjs
    ========================================================================== */
 
 import fs from "node:fs";
@@ -26,7 +28,7 @@ import crypto from "node:crypto";
 
 const TOKEN = process.env.VERCEL_TOKEN;
 const PROJECT = process.env.VERCEL_PROJECT || "himdristi";
-const TEAM = process.env.VERCEL_TEAM || "";
+const TEAM = process.env.VERCEL_TEAM || process.env.VERCEL_SCOPE || "";
 const TARGET = process.env.VERCEL_TARGET || "production";
 const ROOT = process.cwd();
 const DIST = path.join(ROOT, "dist");
