@@ -5,26 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>document.documentElement.classList.add("js")</script>
 <meta name="description" content="Digital monitoring of glacier melting in the Hindu Kush Himalaya: how scientists track ice loss, what the evidence shows, and what can be done. A CHE110 environment awareness project by students at Lovely Professional University.">
+<meta name="theme-color" content="#04080e">
 <title>Digital Monitoring of Glacier Melting in the Himalayan Region | CHE110 Project</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
 
-<!-- Fixed atmospheric background (pure decoration) -->
-<div class="bg" aria-hidden="true">
-  <div class="bg-topo"></div>
-  <div class="bg-grid"></div>
-</div>
+<!-- Fixed WebGL backdrop: a procedural Himalayan range driven by scroll -->
+<canvas id="scene" class="scene" aria-hidden="true"></canvas>
+<div class="scene-fallback" aria-hidden="true"></div>
 
 <!-- Reusable SVG assets -->
 <svg class="svg-defs" aria-hidden="true" focusable="false">
   <defs>
-    <symbol id="ridge-back" viewBox="0 0 1440 320"><path d="M0 320V205l86-45 82 55 84-65 88 70 88-80 92 62 96-60 82 52 92-74 96 66 94-52 88 58 90-62 84 62 92-44 78 32 60-18v78z"/></symbol>
-    <symbol id="ridge-mid" viewBox="0 0 1440 320"><path d="M0 320V240l72-58 88 70 88-80 90 80 92-102 90 94 92-54 88 72 92-90 90 78 92-88 88 88 94-80 88 76 90-66 86 72 78-46 66 38 62-52v74z"/></symbol>
     <symbol id="ridge-front" viewBox="0 0 1440 320"><path d="M0 320V272l82-50 90 60 92-82 98 82 100-92 100 82 106-60 104 74 106-84 100 74 110-60 100 68 108-58 92 72 100-56 92 46 58-26v72z"/></symbol>
   </defs>
 </svg>
@@ -58,32 +55,25 @@
 </header>
 
 <main id="main">
-  <section class="hero">
-    <div class="hero-sky" aria-hidden="true">
-      <span class="starfield"></span>
-      <span class="hero-glow"></span>
-      <svg class="ridge-layer ridge-back" viewBox="0 0 1440 320" preserveAspectRatio="none"><use href="#ridge-back"/></svg>
-      <svg class="ridge-layer ridge-mid" viewBox="0 0 1440 320" preserveAspectRatio="none"><use href="#ridge-mid"/></svg>
-      <svg class="ridge-layer ridge-front" viewBox="0 0 1440 320" preserveAspectRatio="none"><use class="ridge-fill" href="#ridge-front"/><use class="ridge-stroke" href="#ridge-front"/></svg>
-      <span class="snow"></span>
-    </div>
+  <section class="hero" id="top">
+    <div class="hero-scrim" aria-hidden="true"></div>
     <div class="container hero-inner">
-      <p class="badge"><span class="badge-dot" aria-hidden="true"></span>Environment Awareness Project by Students</p>
-      <h1>Digital Monitoring of <span class="grad">Glacier Melting</span> in the Himalayan Region</h1>
-      <p class="hero-lede">How scientists use satellites, field measurements and models to track ice loss in the Hindu Kush Himalaya, and why it matters for the people who depend on the rivers it feeds.</p>
-      <p class="scope"><strong>Which region?</strong> "HKH" (Hindu Kush Himalaya) is the eight-country region ICIMOD assesses. "Himalaya" is the central mountain arc within it. "High Mountain Asia" is a wider region that also includes the Tibetan Plateau and Tien Shan. We name the region each source uses.</p>
+      <p class="badge" data-reveal="up"><span class="badge-dot" aria-hidden="true"></span>Environment Awareness Project by Students</p>
+      <h1 data-reveal="up">Digital Monitoring of <span class="grad">Glacier Melting</span> in the Himalayan Region</h1>
+      <p class="hero-lede" data-reveal="up">How scientists use satellites, field measurements and models to track ice loss in the Hindu Kush Himalaya, and why it matters for the people who depend on the rivers it feeds.</p>
+      <p class="scope" data-reveal="up"><strong>Which region?</strong> "HKH" (Hindu Kush Himalaya) is the eight-country region ICIMOD assesses. "Himalaya" is the central mountain arc within it. "High Mountain Asia" is a wider region that also includes the Tibetan Plateau and Tien Shan. We name the region each source uses.</p>
     </div>
     <a class="scroll-cue" href="#finding" aria-label="Scroll to key finding"><span aria-hidden="true"></span></a>
   </section>
 
   <section id="finding" class="section band">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head" data-reveal="up">
         <p class="eyebrow">Assessment &middot; June 2023</p>
         <h2>Key finding: ICIMOD HI-WISE assessment (published June 2023)</h2>
       </div>
-      <p class="lead">The rate at which Hindu Kush Himalaya glaciers lost mass rose by 65% between the 2000s and the 2010s:</p>
-      <div class="dash" role="group" aria-label="Average HKH glacier mass loss rate rose from minus 0.17 to minus 0.28 metres water equivalent per year">
+      <p class="lead" data-reveal="up">The rate at which Hindu Kush Himalaya glaciers lost mass rose by 65% between the 2000s and the 2010s:</p>
+      <div class="dash" role="group" aria-label="Average HKH glacier mass loss rate rose from minus 0.17 to minus 0.28 metres water equivalent per year" data-reveal="scale">
         <div class="dash-card">
           <span class="dash-tag">2000&ndash;2009</span>
           <span class="dash-num" data-count="0.17" data-prefix="&minus;" data-decimals="2">&minus;0.17</span>
@@ -104,11 +94,11 @@
           <span class="dash-label">faster mass loss</span>
         </div>
       </div>
-      <div class="meta">
+      <div class="meta" data-reveal="up">
         <p><strong>Measurement:</strong> glacier mass balance (m w.e. = metres of water equivalent lost per year). <strong>Scope:</strong> Hindu Kush Himalaya, region-wide average. It is not a rate for every glacier; some, such as parts of the Karakoram, behave differently.<br>
         <strong>Source:</strong> <a href="https://hkh.icimod.org/hi-wise/ice/">ICIMOD HI-WISE, "Ice" key findings</a>. ICIMOD's <a href="https://www.icimod.org/press-release/landmark-report-on-impacts-of-disappearing-snow-and-ice-in-the-hindu-kush-himalaya-current-emissions-path-threatens-two-billion-people-and-is-accelerating-species-extinction/">press release</a> (20 June 2023) words the same comparison as "2011&ndash;2020 versus the previous decade". <strong>Retrieved:</strong> 30 September 2026.</p>
       </div>
-      <div class="meta">
+      <div class="meta" data-reveal="up">
         <p>ICIMOD released newer reports in March 2026 (including <a href="https://lib.icimod.org/records/fk7f9-2ha88">HKH Glacier Outlook 2026</a>). This page has not yet summarised their figures. It is a fixed snapshot, not a live feed.</p>
       </div>
     </div>
@@ -116,14 +106,14 @@
 
   <section id="monitoring" class="section">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head" data-reveal="up">
         <p class="eyebrow">Methodology</p>
         <h2>How monitoring works</h2>
       </div>
-      <p class="lead">No single method gives the full picture. Satellite images can show a glacier's area and retreat, but a glacier can keep its length while thinning, so scientists also need thickness or mass measurements (<a href="https://www.icimod.org/initiative/cryosphere-monitoring-approach">ICIMOD monitoring approach</a>).</p>
+      <p class="lead" data-reveal="up">No single method gives the full picture. Satellite images can show a glacier's area and retreat, but a glacier can keep its length while thinning, so scientists also need thickness or mass measurements (<a href="https://www.icimod.org/initiative/cryosphere-monitoring-approach">ICIMOD monitoring approach</a>).</p>
 
       <ol class="methods">
-        <li class="method">
+        <li class="method" data-reveal="up">
           <span class="method-num" aria-hidden="true">01</span>
           <span class="method-ico" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8.5" width="11" height="7" rx="1.5"/><path d="M13.5 10.5 19 7.5v9l-5.5-3"/><path d="M6 4v2.4M6 17.6V20M2.5 5.2 4.4 6.4M2.5 18.8 4.4 17.6"/></svg>
@@ -131,7 +121,7 @@
           <h3>Satellite images and outlines</h3>
           <p>Optical satellites such as Landsat let scientists map glacier boundaries and watch them change over years.</p>
         </li>
-        <li class="method">
+        <li class="method" data-reveal="up">
           <span class="method-num" aria-hidden="true">02</span>
           <span class="method-ico" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19 8 12l3 4 4-8 6 11"/><path d="M7.5 14.5 10 18M11 8l2-4M15 4.5 16.5 8"/></svg>
@@ -139,7 +129,7 @@
           <h3>Elevation and thickness</h3>
           <p>Comparing surface-height models from different years shows how much a glacier has thinned, which is used to estimate mass change.</p>
         </li>
-        <li class="method">
+        <li class="method" data-reveal="up">
           <span class="method-num" aria-hidden="true">03</span>
           <span class="method-ico" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h11M13 5.5 16 8l-3 2.5M4 16h11M13 13.5 16 16l-3 2.5"/></svg>
@@ -147,7 +137,7 @@
           <h3>Ice velocity</h3>
           <p>Tracking surface features between satellite passes shows how fast ice flows. A NASA-hosted Landsat study of High Mountain Asia found most glaciers slowing in 1999&ndash;2015 as they thinned (<a href="https://science.nasa.gov/missions/landsat/glacier-behavior-in-high-mountain-asia/">NASA</a>).</p>
         </li>
-        <li class="method">
+        <li class="method" data-reveal="up">
           <span class="method-num" aria-hidden="true">04</span>
           <span class="method-ico" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21V4M9 5h8l-2 3 2 3H9M5.5 21h7"/></svg>
@@ -157,7 +147,7 @@
         </li>
       </ol>
 
-      <div class="cycle-block">
+      <div class="cycle-block" data-reveal="up">
         <h3 class="subhead">The observation cycle</h3>
         <ol class="cycle">
           <li><span class="cycle-ico" aria-hidden="true">1</span><p><strong>Observe:</strong> satellites collect images and elevation data.</p></li>
@@ -167,7 +157,7 @@
         </ol>
       </div>
 
-      <div class="glossary">
+      <div class="glossary" data-reveal="up">
         <h3 class="subhead">Glossary</h3>
         <dl>
           <div class="term"><dt>Mass balance</dt><dd>Snow gained minus ice lost over a year. Negative means the glacier is shrinking.</dd></div>
@@ -181,18 +171,18 @@
 
   <section id="evidence" class="section band">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head" data-reveal="up">
         <p class="eyebrow">Evidence</p>
         <h2>What the evidence shows</h2>
       </div>
       <ul class="findings">
-        <li class="finding-item"><span class="finding-ico" aria-hidden="true"></span><div><p><strong>Long-term decline (HKH):</strong> ICIMOD's Glacier Outlook 2026 reports that about 89% of recorded years in 50 years of field observations had negative mass balance, and that only a small fraction of glaciers are studied. <a class="source" href="https://lib.icimod.org/records/fk7f9-2ha88">[ICIMOD library record]</a></p></div></li>
-        <li class="finding-item"><span class="finding-ico" aria-hidden="true"></span><div><p><strong>Acceleration (HKH, 2000s to 2010s):</strong> see the key finding above. <a class="source" href="https://hkh.icimod.org/hi-wise/ice/">[ICIMOD HI-WISE]</a></p></div></li>
-        <li class="finding-item"><span class="finding-ico" aria-hidden="true"></span><div><p><strong>Projection, not prediction (HKH, to 2100):</strong> ICIMOD projects glaciers will lose 30&ndash;50% of their 2015 volume by 2100 if global warming is 1.5&ndash;2&deg;C, and 55&ndash;75% at 3&deg;C. The outcome depends on future emissions. <a class="source" href="https://hkh.icimod.org/hi-wise/ice/">[ICIMOD HI-WISE]</a></p></div></li>
-        <li class="finding-item"><span class="finding-ico" aria-hidden="true"></span><div><p><strong>Glacial lakes:</strong> ICIMOD deems 200 glacial lakes in the HKH dangerous <a class="source" href="https://www.icimod.org/press-release/landmark-report-on-impacts-of-disappearing-snow-and-ice-in-the-hindu-kush-himalaya-current-emissions-path-threatens-two-billion-people-and-is-accelerating-species-extinction/">[ICIMOD press release]</a>. Separately, ISRO found 676 of 2,431 lakes larger than 10 ha in Indian Himalayan river basins expanded between 1984 and 2023. <a class="source" href="https://www.isro.gov.in/Satellite_Insights_Expanding_Glacial_Lakes_Indian_Himalayas.html">[ISRO]</a></p></div></li>
-        <li class="finding-item"><span class="finding-ico" aria-hidden="true"></span><div><p><strong>Hidden loss:</strong> A 2023 study reported in ESA's news found that satellites underestimate ice loss from lake-ending Himalayan glaciers by about 6.5% on average (2000&ndash;2020). <a class="source" href="https://www.esa.int/Applications/Observing_the_Earth/Revealing_invisible_Himalaya_glacier_loss">[ESA]</a></p></div></li>
+        <li class="finding-item" data-reveal="up"><span class="finding-ico" aria-hidden="true"></span><div><p><strong>Long-term decline (HKH):</strong> ICIMOD's Glacier Outlook 2026 reports that about 89% of recorded years in 50 years of field observations had negative mass balance, and that only a small fraction of glaciers are studied. <a class="source" href="https://lib.icimod.org/records/fk7f9-2ha88">[ICIMOD library record]</a></p></div></li>
+        <li class="finding-item" data-reveal="up"><span class="finding-ico" aria-hidden="true"></span><div><p><strong>Acceleration (HKH, 2000s to 2010s):</strong> see the key finding above. <a class="source" href="https://hkh.icimod.org/hi-wise/ice/">[ICIMOD HI-WISE]</a></p></div></li>
+        <li class="finding-item" data-reveal="up"><span class="finding-ico" aria-hidden="true"></span><div><p><strong>Projection, not prediction (HKH, to 2100):</strong> ICIMOD projects glaciers will lose 30&ndash;50% of their 2015 volume by 2100 if global warming is 1.5&ndash;2&deg;C, and 55&ndash;75% at 3&deg;C. The outcome depends on future emissions. <a class="source" href="https://hkh.icimod.org/hi-wise/ice/">[ICIMOD HI-WISE]</a></p></div></li>
+        <li class="finding-item" data-reveal="up"><span class="finding-ico" aria-hidden="true"></span><div><p><strong>Glacial lakes:</strong> ICIMOD deems 200 glacial lakes in the HKH dangerous <a class="source" href="https://www.icimod.org/press-release/landmark-report-on-impacts-of-disappearing-snow-and-ice-in-the-hindu-kush-himalaya-current-emissions-path-threatens-two-billion-people-and-is-accelerating-species-extinction/">[ICIMOD press release]</a>. Separately, ISRO found 676 of 2,431 lakes larger than 10 ha in Indian Himalayan river basins expanded between 1984 and 2023. <a class="source" href="https://www.isro.gov.in/Satellite_Insights_Expanding_Glacial_Lakes_Indian_Himalayas.html">[ISRO]</a></p></div></li>
+        <li class="finding-item" data-reveal="up"><span class="finding-ico" aria-hidden="true"></span><div><p><strong>Hidden loss:</strong> A 2023 study reported in ESA's news found that satellites underestimate ice loss from lake-ending Himalayan glaciers by about 6.5% on average (2000&ndash;2020). <a class="source" href="https://www.esa.int/Applications/Observing_the_Earth/Revealing_invisible_Himalaya_glacier_loss">[ESA]</a></p></div></li>
       </ul>
-      <div class="box">
+      <div class="box" data-reveal="up">
         <div class="box-body">
           <h3>Explore the data</h3>
           <p>ICIMOD's interactive map shows glacier number, area and estimated ice reserves for the HKH. It is a baseline inventory, not a live feed; check the linked dataset record for its reference year.</p>
@@ -205,52 +195,52 @@
 
   <section id="impact" class="section">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head" data-reveal="up">
         <p class="eyebrow">Downstream impact</p>
         <h2>Why it matters</h2>
       </div>
       <div class="impact-grid">
-        <div>
+        <div data-reveal="up">
           <h3 class="subhead">Water for people downstream</h3>
           <p>ICIMOD reports that HKH ice and snow feed 12 rivers across 16 countries, supporting about 240 million people in the mountains and a further 1.65 billion downstream. Water availability is projected to peak around mid-century and then decline, with uncertain timing.</p>
         </div>
-        <div>
+        <div data-reveal="up">
           <h3 class="subhead">Glacial lake hazards</h3>
           <p>As glaciers retreat, meltwater can collect behind natural rock and ice dams. If a dam fails, a glacial lake outburst flood (GLOF) can hit communities downstream. Monitoring helps identify lakes that are growing, but it cannot prevent a flood by itself.</p>
         </div>
       </div>
       <div class="stats" aria-label="Scale of the Hindu Kush Himalaya water system">
-        <div class="stat"><div class="stat-value"><span class="stat-num" data-count="12">12</span><span class="stat-unit">rivers</span></div><p class="stat-cap">fed by HKH ice and snow</p></div>
-        <div class="stat"><div class="stat-value"><span class="stat-num" data-count="16">16</span><span class="stat-unit">countries</span></div><p class="stat-cap">across the region</p></div>
-        <div class="stat"><div class="stat-value"><span class="stat-num" data-count="240">240</span><span class="stat-unit">million</span></div><p class="stat-cap">people in the mountains</p></div>
-        <div class="stat"><div class="stat-value"><span class="stat-num" data-count="1.65" data-decimals="2">1.65</span><span class="stat-unit">billion</span></div><p class="stat-cap">people downstream</p></div>
+        <div class="stat" data-reveal="up"><div class="stat-value"><span class="stat-num" data-count="12">12</span><span class="stat-unit">rivers</span></div><p class="stat-cap">fed by HKH ice and snow</p></div>
+        <div class="stat" data-reveal="up"><div class="stat-value"><span class="stat-num" data-count="16">16</span><span class="stat-unit">countries</span></div><p class="stat-cap">across the region</p></div>
+        <div class="stat" data-reveal="up"><div class="stat-value"><span class="stat-num" data-count="240">240</span><span class="stat-unit">million</span></div><p class="stat-cap">people in the mountains</p></div>
+        <div class="stat" data-reveal="up"><div class="stat-value"><span class="stat-num" data-count="1.65" data-decimals="2">1.65</span><span class="stat-unit">billion</span></div><p class="stat-cap">people downstream</p></div>
       </div>
     </div>
   </section>
 
   <section id="action" class="section band">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head" data-reveal="up">
         <p class="eyebrow">Response</p>
         <h2>What can be done</h2>
       </div>
-      <p class="lead">Monitoring only helps if it leads to action. ICIMOD's assessment points to three kinds of response.</p>
+      <p class="lead" data-reveal="up">Monitoring only helps if it leads to action. ICIMOD's assessment points to three kinds of response.</p>
       <div class="grid acts">
-        <div class="card act act-cool">
+        <div class="card act act-cool" data-reveal="up">
           <span class="card-ico" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l6 6 4-4 6 7"/><path d="M14 16h6v-6"/></svg>
           </span>
           <h3>Slow the cause</h3>
           <p>The projections above depend on global warming level: lower warming means less ice lost. ICIMOD calls for fast, deep emissions cuts.</p>
         </div>
-        <div class="card act act-warm">
+        <div class="card act act-warm" data-reveal="up">
           <span class="card-ico" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V7z"/><path d="M9 12l2 2 4-4"/></svg>
           </span>
           <h3>Prepare communities</h3>
           <p>ICIMOD calls for more adaptation funding and ecosystem restoration, and for identifying hazardous glacial lakes so people at risk can be warned.</p>
         </div>
-        <div class="card act act-blue">
+        <div class="card act act-blue" data-reveal="up">
           <span class="card-ico" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="3"/></svg>
           </span>
@@ -258,46 +248,46 @@
           <p>Coverage is uneven, since only a small fraction of glaciers are studied. Long-term, standardised observations make the picture more reliable.</p>
         </div>
       </div>
-      <p class="students"><strong>What students can do</strong> (our suggestion, not from a cited study): share accurate, sourced facts, ask how your own choices affect emissions, and follow ICIMOD updates.</p>
+      <p class="students" data-reveal="up"><strong>What students can do</strong> (our suggestion, not from a cited study): share accurate, sourced facts, ask how your own choices affect emissions, and follow ICIMOD updates.</p>
     </div>
   </section>
 
   <section id="limits" class="section">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head" data-reveal="up">
         <p class="eyebrow">Caveats</p>
         <h2>Limits and uncertainty</h2>
       </div>
       <ul class="limits">
-        <li><span class="limit-ico" aria-hidden="true"></span><p><strong>Hard to observe:</strong> cloud, steep-terrain shadows and debris cover make satellite images difficult to interpret.</p></li>
-        <li><span class="limit-ico" aria-hidden="true"></span><p><strong>Few ground measurements:</strong> only a small share of glaciers have field data, so models extrapolate.</p></li>
-        <li><span class="limit-ico" aria-hidden="true"></span><p><strong>Projections are not predictions:</strong> they depend on future emissions and model limits, and carry uncertainty ranges.</p></li>
-        <li><span class="limit-ico" aria-hidden="true"></span><p><strong>Snow versus ice:</strong> seasonal snow can be hard to tell apart from permanent glacier ice in satellite images.</p></li>
-        <li><span class="limit-ico" aria-hidden="true"></span><p><strong>Region-wide averages:</strong> the 65% figure describes the HKH as a whole, not each glacier.</p></li>
+        <li data-reveal="up"><span class="limit-ico" aria-hidden="true"></span><p><strong>Hard to observe:</strong> cloud, steep-terrain shadows and debris cover make satellite images difficult to interpret.</p></li>
+        <li data-reveal="up"><span class="limit-ico" aria-hidden="true"></span><p><strong>Few ground measurements:</strong> only a small share of glaciers have field data, so models extrapolate.</p></li>
+        <li data-reveal="up"><span class="limit-ico" aria-hidden="true"></span><p><strong>Projections are not predictions:</strong> they depend on future emissions and model limits, and carry uncertainty ranges.</p></li>
+        <li data-reveal="up"><span class="limit-ico" aria-hidden="true"></span><p><strong>Snow versus ice:</strong> seasonal snow can be hard to tell apart from permanent glacier ice in satellite images.</p></li>
+        <li data-reveal="up"><span class="limit-ico" aria-hidden="true"></span><p><strong>Region-wide averages:</strong> the 65% figure describes the HKH as a whole, not each glacier.</p></li>
       </ul>
     </div>
   </section>
 
   <section id="project" class="section band">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head" data-reveal="up">
         <p class="eyebrow">About this project</p>
         <h2>Project information</h2>
       </div>
       <div class="grid info">
-        <div class="info-card">
+        <div class="info-card" data-reveal="up">
           <h3 class="subhead">Group members</h3>
           <ul class="members"><li>Namisha Chopra</li><li>Pranshu</li><li>Pranika Joshi</li></ul>
         </div>
-        <div class="info-card">
+        <div class="info-card" data-reveal="up">
           <h3 class="subhead">Course</h3>
           <p>CHE110: Environmental Studies</p>
         </div>
-        <div class="info-card">
+        <div class="info-card" data-reveal="up">
           <h3 class="subhead">Course instructor</h3>
           <p>Dr. Aditi Sugha</p>
         </div>
-        <div class="info-card">
+        <div class="info-card" data-reveal="up">
           <h3 class="subhead">Awareness video</h3>
           <p class="ph">[Social media video link to be added after posting]</p>
         </div>
@@ -308,7 +298,7 @@
 
 <footer class="site-footer">
   <svg class="footer-ridge" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true"><use href="#ridge-front"/></svg>
-  <div class="container foot">
+  <div class="container foot" data-reveal="up">
     <div class="team">
       <h2>Project team</h2>
       <ul>
@@ -333,6 +323,8 @@
     </div>
   </div>
 </footer>
+
+<script type="module" src="scene.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
